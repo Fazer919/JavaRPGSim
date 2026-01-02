@@ -10,7 +10,13 @@ public class DefaultCharacter {
         this.hp=hp;
     }
     public int attack(DefaultCharacter target){
-        return target.takeDamage(this.attackPower);
+        int remainingHp=target.takeDamage(this.attackPower);
+        if(remainingHp<=0){
+            return 0;
+        }
+        else{
+            return remainingHp;
+        }
     }
     public int getAttackPower(){
         return attackPower;
@@ -26,7 +32,7 @@ public class DefaultCharacter {
             return name+" is dead.";
         }
         else{
-            return name+" is at "+hp+".";
+            return name+" is at "+hp+" hp.";
         }
     }
 }
