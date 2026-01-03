@@ -1,6 +1,16 @@
 package Characters;
+import java.util.*;
 public class Goblin extends DefaultCharacter{
-    public Goblin(int hp, int attackPower,String name){
-        super(hp, attackPower, name);
+    public Goblin(Random rand, String name){
+        super(rand, name);
+        attackPower=rand.nextInt(1,5);
+        hp=rand.nextInt(5,10);
     }
+
+    /*@Override
+    public boolean HitsOrMiss() {
+        super.HitsOrMiss();
+        attackPower=rand.nextInt();
+        return true;
+    }*/
 }

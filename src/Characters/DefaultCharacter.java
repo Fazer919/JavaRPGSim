@@ -1,38 +1,70 @@
 package Characters;
+import java.util.*;
 public class DefaultCharacter {
     protected int hp;
     protected int attackPower;
     protected String name;
+    Random rand;
 
-    public DefaultCharacter(int hp, int attackPower,String name) {
+    public DefaultCharacter(Random rand, String name) {
+        this.rand=rand;
         this.name=name;
-        this.attackPower=attackPower;
-        this.hp=hp;
     }
-    public int attack(DefaultCharacter target){
-        int remainingHp=target.takeDamage(this.attackPower);
-        if(remainingHp<=0){
+
+    public boolean attack(DefaultCharacter target){
+        if(HitsOrMiss()){
+            target.takeDamage(this.attackPower);
+            return true;
+        }
+        else{
+            System.out.println(name+" missed.");
+            return false;
+        }
+    }
+    public boolean HitsOrMiss(){
+        int chance=rand.nextInt(0,2);
+        if(chance==1){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    public int takeDamage(int dmg){
+        return hp-=dmg;
+    }
+
+
+    public int getHp(){
+        if(hp<=0){
             return 0;
         }
         else{
-            return remainingHp;
+            return hp;
         }
     }
     public int getAttackPower(){
         return attackPower;
     }
-    public int takeDamage(int dmg){
-        return hp-=dmg;
-    }
     public String getName(){
         return name;
     }
-    public String isDead(){
-        if(hp<=0){
-            return name+" is dead.";
+
+    //Checks and returns a string if the person is dead
+    public void printDeath(DefaultCharacter opponent){
+        if(isDead()){
+            System.out.print(name+" is dead. "+opponent.getName()+" wins.");
         }
         else{
-            return name+" is at "+hp+" hp.";
+            System.out.print(name+" is at "+hp+" hp.");
+        }
+    }
+    public boolean isDead(){
+        if(hp<=0){
+            return true;
+        }
+        else{
+            return false;
         }
     }
 }
