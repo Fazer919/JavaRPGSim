@@ -3,12 +3,13 @@ package rpggame;
 import java.util.Random;
 import java.util.Scanner;
 
-import Characters.*;
+import Characters.Goblin;
+import Characters.Ogre;
+import Characters.Warriors;
 import javafx.application.Platform;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.util.*;
-
+import javafx.util.Duration;
 
 public class App{
     public static void main(String[] args) throws Exception {
@@ -51,19 +52,25 @@ public class App{
                     mediaPlayer.play();
                     // Optional: wait until the audio finishes before continuing
                     Object lock = new Object();
-                    mediaPlayer.setOnEndOfMedia(() -> {
+                    /*mediaPlayer.setOnEndOfMedia(() -> {
                         synchronized(lock) {
                             lock.notify();
                         }
-                    });
+                    });*/
                     synchronized(lock) {
-                        lock.wait(); // pause loop until clip finishes
+                        mediaPlayer.seek(Duration.ZERO); // pause loop until clip finishes
                     }
                     break;
                 }
             }
-
-            System.out.println(" Do you want to fight again? (Y/N)");
+            String check="Do you want to fight again? (Y/N)";
+            System.out.println();
+            for(char ch: check.toCharArray()){
+                System.out.print(ch);
+                System.out.flush();
+                Thread.sleep(100);
+            }
+            System.out.println();
             String restarter=scnr.next();
             if(!(restarter.charAt(0)=='Y')){
                 repeat=false;
