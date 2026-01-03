@@ -3,12 +3,11 @@ package rpggame;
 import java.util.Random;
 import java.util.Scanner;
 
-import Characters.Goblin;
-import Characters.Ogre;
-import Characters.Warriors;
+import Characters.*;
 import javafx.application.Platform;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.util.*;
 
 
 public class App{
@@ -17,6 +16,8 @@ public class App{
         Platform.startup(() -> {});
 
         Media media = new Media(App.class.getResource("/Audio/Nooo.m4a").toExternalForm());
+        //
+        MediaPlayer mediaPlayer = new MediaPlayer(media);
         
         //When i get a chance switch this from a set name to a name given by the user
         String name="Albert";
@@ -45,23 +46,21 @@ public class App{
                 }
                 if(warrior.isDead()){
                     warrior.printDeath(goblin);
+                    //Seek must go in front of the play command as it ensures the mediaPlayer is ready for another round to play the recording again
+                    mediaPlayer.seek(Duration.ZERO);
+                    mediaPlayer.play();
+                    // Optional: wait until the audio finishes before continuing
+                    Object lock = new Object();
+                    mediaPlayer.setOnEndOfMedia(() -> {
+                        synchronized(lock) {
+                            lock.notify();
+                        }
+                    });
+                    synchronized(lock) {
+                        lock.wait(); // pause loop until clip finishes
+                    }
                     break;
                 }
-            }
-            //
-            MediaPlayer mediaPlayer = new MediaPlayer(media);
-            // Play it
-            mediaPlayer.play();
-            // Optional: wait until the audio finishes before continuing
-            Object lock = new Object();
-            mediaPlayer.setOnEndOfMedia(() -> {
-                synchronized(lock) {
-                    lock.notify();
-                }
-            });
-
-            synchronized(lock) {
-                lock.wait(); // pause loop until clip finishes
             }
 
             System.out.println(" Do you want to fight again? (Y/N)");
