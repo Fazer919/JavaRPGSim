@@ -1,12 +1,11 @@
 package rpggame;
 
-import Characters.Goblin;
-import Characters.Ogre;
-import Characters.Warriors;
-
 import java.util.Random;
 import java.util.Scanner;
 
+import Characters.Goblin;
+import Characters.Ogre;
+import Characters.Warriors;
 import javafx.application.Platform;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -49,6 +48,7 @@ public class App{
                     break;
                 }
             }
+            //
             MediaPlayer mediaPlayer = new MediaPlayer(media);
             // Play it
             mediaPlayer.play();

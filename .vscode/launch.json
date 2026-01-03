@@ -8,6 +8,13 @@
             "type": "java",
             "name": "App",
             "request": "launch",
+            "mainClass": "rpggame.App",
+            "projectName": "mini-rpg"
+        },
+        {
+            "type": "java",
+            "name": "App",
+            "request": "launch",
             "mainClass": "main.java.hellofx.App",
             "projectName": "Mini RPG_d2d3805b"
         },
