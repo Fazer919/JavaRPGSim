@@ -1,5 +1,6 @@
 package Characters;
-import java.util.*;
+import java.util.Random;
+
 public class Goblin extends DefaultCharacter{
     public Goblin(Random rand, String name){
         super(rand, name);
