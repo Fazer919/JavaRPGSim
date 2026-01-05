@@ -1,17 +1,12 @@
 package Characters;
 import java.util.Random;
+import Characters.Items.*;
 
 public class Goblin extends DefaultCharacter{
-    public Goblin(Random rand, String name){
+    public Goblin(Random rand, String name, float difficulty){
         super(rand, name);
-        attackPower=rand.nextInt(1,5);
-        hp=rand.nextInt(5,10);
+        hp=rand.nextInt(5,10)*difficulty;
+        Dagger d=new Dagger(rand);
+        equipWeapon(d);
     }
-
-    /*@Override
-    public boolean HitsOrMiss() {
-        super.HitsOrMiss();
-        attackPower=rand.nextInt();
-        return true;
-    }*/
 }

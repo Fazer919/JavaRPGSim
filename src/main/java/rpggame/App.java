@@ -10,6 +10,7 @@ public class App{
     public static void main(String[] args) throws Exception {
         Random rand=new Random();
         Platform.startup(() -> {});
+
         //Naming the player and dealing with edge cases that the player might do
         boolean repeat=true;
         Scanner scnr=new Scanner(System.in);
@@ -41,12 +42,12 @@ public class App{
 
         //Battle loop
         while(repeat==true){
-            Goblin goblin = new Goblin(rand, "Goblin");
-            Ogre ogre=new Ogre(rand, "Ogre");
+            EnemyFactory ef=new EnemyFactory();
+            DefaultCharacter enemy=ef.getrandomEnemy(rand, scnr);
             System.out.println();
             System.out.println();
-            Warriors warrior=new Warriors(rand, name);
-            Battle b=new Battle(warrior, goblin,scnr);
+            Warriors warrior=new Warriors(rand, name, scnr);
+            Battle b=new Battle(warrior, enemy,scnr,rand);
             b.run();
             //Check if user wants to repeat the game
             String check="Do you want to fight again? (Y/N)";

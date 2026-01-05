@@ -1,11 +1,14 @@
 package Characters;
 import java.util.*;
+import Characters.Items.*;
 
 public class DefaultCharacter{
-    protected int hp;
+    protected float hp;
     protected int attackPower;
     protected String name;
     Random rand;
+    Weapon weapon;
+    float difficulty=1;
 
     public DefaultCharacter(Random rand, String name) {
         this.rand=rand;
@@ -13,8 +16,11 @@ public class DefaultCharacter{
     }
 
     public boolean attack(DefaultCharacter target){
-        if(HitsOrMiss()){
-            target.takeDamage(this.attackPower);
+        if(weapon.HitsOrMiss()){
+            attackPower=weapon.rollDamage();
+            int scaled=(int)(attackPower*difficulty);
+            attackPower=scaled;
+            target.takeDamage(attackPower);
             return true;
         }
         else{
@@ -22,30 +28,24 @@ public class DefaultCharacter{
             return false;
         }
     }
-    public boolean HitsOrMiss(){
-        int chance=rand.nextInt(0,2);
-        if(chance==1){
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
-    public int takeDamage(int dmg){
+    public float takeDamage(int dmg){
         return hp-=dmg;
     }
+    public void equipWeapon(Weapon weapon){
+        this.weapon=weapon;
+        attackPower=weapon.getMaxDamage();
+    }
+    public int getAttackPower(){
+        return attackPower;
+    }
 
-
-    public int getHp(){
+    public float getHp(){
         if(hp<=0){
             return 0;
         }
         else{
             return hp;
         }
-    }
-    public int getAttackPower(){
-        return attackPower;
     }
     public String getName(){
         return name;

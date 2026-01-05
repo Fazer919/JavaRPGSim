@@ -25,8 +25,4 @@ public class SoundManager {
         player.seek(Duration.ZERO);
         player.play();
     }
-    public static void playEnemyDeath(String resourceString){
-        
-    }
 }
-
