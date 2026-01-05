@@ -1,5 +1,5 @@
 package Characters;
-import java.util.Random;
+import java.util.*;
 import Characters.Items.*;
 
 public class Goblin extends DefaultCharacter{
