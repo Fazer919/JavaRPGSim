@@ -4,8 +4,10 @@ import Characters.Items.*;
 
 public class DefaultCharacter{
     protected float hp;
+    protected int maxHp=0;
     protected int attackPower;
     protected String name;
+    protected int minHp;
     Random rand;
     Weapon weapon;
     float difficulty=1;
@@ -67,5 +69,14 @@ public class DefaultCharacter{
         else{
             return false;
         }
+    }
+    public void Stats(){
+        System.out.println("Name of Character: "+name);
+        System.out.println("Remaining Health: "+getHp()+"/"+maxHp);
+        System.out.println(weapon.toString());
+    }
+    @Override
+    public String toString() {
+        return String.format("%s | HP: %.1f", getName(), getHp());
     }
 }
