@@ -5,7 +5,9 @@ import Characters.Items.*;
 public class Ogre extends DefaultCharacter{
     public Ogre(Random rand, String name, float difficulty) {
         super(rand, name);
-        hp=rand.nextInt(10,20)*difficulty;
+        int minHp=10;
+        int maxHp=20;
+        hp=rand.nextInt(minHp,maxHp)*difficulty;
         Axe axe=new Axe(rand);
         equipWeapon(axe);
     }

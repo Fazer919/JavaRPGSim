@@ -22,4 +22,5 @@ public class Dagger extends Weapon{
             return false;
         }
     }
+    
 }

@@ -2,6 +2,7 @@ package rpggame;
 
 import java.util.Random;
 import java.util.Scanner;
+import java.util.*;
 
 import Characters.*;
 import javafx.application.Platform;
@@ -43,7 +44,7 @@ public class App{
         //Battle loop
         while(repeat==true){
             EnemyFactory ef=new EnemyFactory();
-            DefaultCharacter enemy=ef.getrandomEnemy(rand, scnr);
+            ArrayList enemy=ef.getrandomEnemy(rand, scnr);
             System.out.println();
             System.out.println();
             Warriors warrior=new Warriors(rand, name, scnr);
