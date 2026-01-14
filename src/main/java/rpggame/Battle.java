@@ -26,12 +26,6 @@ public class Battle{
         System.out.println("==        NEW       FIGHT         ==");
         System.out.println("_______________________________________");
         while(!hero.isDead()&&!enemys.isEmpty()) {
-            for(int i=0; i<5;i++){
-                System.out.println();
-            }
-            for(int i=0;i<3;i++){
-                System.out.println();
-            }
             boolean repeater=true;
             while (repeater) {
                 System.out.println("1. Attack");

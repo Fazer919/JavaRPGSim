@@ -1,7 +1,5 @@
 package rpggame;
 
-import java.util.Random;
-import java.util.Scanner;
 import java.util.*;
 
 import Characters.*;
