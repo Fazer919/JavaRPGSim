@@ -3,9 +3,9 @@ import java.util.*;
 import Characters.Items.*;
 
 public class DefaultCharacter{
-    protected float hp;
+    protected double hp;
     protected int maxHp=0;
-    protected int attackPower;
+    protected double attackPower;
     protected String name;
     protected int minHp;
     Random rand;
@@ -16,12 +16,13 @@ public class DefaultCharacter{
         this.rand=rand;
         this.name=name;
     }
-
     public boolean attack(DefaultCharacter target){
+        if(weapon==null){
+            System.out.println("User has no weapon.");
+            return false;
+        }
         if(weapon.HitsOrMiss()){
-            attackPower=weapon.rollDamage();
-            int scaled=(int)(attackPower*difficulty);
-            attackPower=scaled;
+            attackPower=weapon.rollDamage()*difficulty;
             target.takeDamage(attackPower);
             return true;
         }
@@ -30,36 +31,35 @@ public class DefaultCharacter{
             return false;
         }
     }
-    public float takeDamage(int dmg){
+    public double takeDamage(double dmg){
         return hp-=dmg;
     }
     public void equipWeapon(Weapon weapon){
         this.weapon=weapon;
         attackPower=weapon.getMaxDamage();
     }
-    public int getAttackPower(){
+    public double getAttackPower(){
         return attackPower;
     }
 
-    public float getHp(){
+    public double getHp(){
         if(hp<=0){
             return 0;
         }
         else{
-            return hp;
+            return Math.max(hp, 0);
         }
     }
     public String getName(){
         return name;
     }
-
     //Checks and returns a string if the person is dead
     public void printDeath(DefaultCharacter opponent){
         if(isDead()){
             System.out.print(name+" is dead. "+opponent.getName()+" wins.");
         }
         else{
-            System.out.print(name+" is at "+hp+" hp.");
+            System.out.printf("%s is at %.1f hp.%n", name, getHp());
         }
     }
     public boolean isDead(){

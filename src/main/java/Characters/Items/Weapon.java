@@ -7,20 +7,21 @@ public class Weapon extends Item{
     private int maxDamage;
     private int minDamage;
     private Random rand;
-    public Weapon(String name, Random rand, int minDamage, int maxDamage){
+    double hitChance;
+    public Weapon(String name, Random rand, int minDamage, int maxDamage, double hitChance){
         super(name);
         this.rand=rand;
         this.minDamage=minDamage;
         this.maxDamage=maxDamage;
+        this.hitChance=hitChance;
     }
 
-    public int rollDamage(){
-        return rand.nextInt(minDamage, maxDamage+1);
+    public double rollDamage(){
+        return rand.nextDouble(minDamage, maxDamage+1);
     }
-
     public boolean HitsOrMiss(){
-        int chance=rand.nextInt(0,2);
-        if(chance==1){
+        double chance=rand.nextDouble();
+        if(chance<hitChance){
             return true;
         }
         else{

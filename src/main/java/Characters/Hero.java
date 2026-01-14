@@ -9,6 +9,7 @@ import Characters.Items.Weapon;
 
 public class Hero extends DefaultCharacter{
     Map<Integer, Weapon> weaponMap=new HashMap<>();
+    float damageMultiplier=1.0f;
     public Hero(Random rand, String name, Scanner scnr){
         super(rand, name);
         Axe axe=new Axe(rand);
@@ -28,19 +29,16 @@ public class Hero extends DefaultCharacter{
                 switch (choice) {
                     case 1 -> {
                         equipWeapon(axe);
-                        weapon=axe;
                         valid_weapon=true;
                         break;
                     }
                     case 2 -> {
                         equipWeapon(dagger);
-                        weapon=dagger;
                         valid_weapon=true;
                         break;
                     }
                     case 3 -> {
                         equipWeapon(sword);
-                        weapon=sword;
                         valid_weapon=true;
                         break;
                     }

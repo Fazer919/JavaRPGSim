@@ -5,33 +5,25 @@ import java.util.*;
 
 public class Battle{
     Hero hero;
-    ArrayList<DefaultCharacter> enemys;
+    ArrayList<Enemy> enemys;
     String playerDeath="/Audio/Nooo.m4a";
     String attack="/Audio/Damage.m4a";
     String enemyDeath="/Audio/golfclap.m4a";
     SoundManager sm=new SoundManager();
-    boolean playerAttacked=false;
-    DefaultCharacter enemy=null;
-    int specific_enemy;
+    boolean skipEnemyTurn=false;
     Scanner scnr;
     Random rand;
-    public Battle(Hero hero, ArrayList<DefaultCharacter> enemy_group, Scanner scnr,Random rand) {
+    public Battle(Hero hero, ArrayList<Enemy> enemy_group, Scanner scnr,Random rand) {
         this.hero=hero;
         this.enemys=enemy_group;
-        this.enemy=enemy_group.get(1);
         this.scnr=scnr;
         this.rand=rand;
     }
     public void run(){
+        spacer();
         System.out.println("==        NEW       FIGHT         ==");
         System.out.println("_______________________________________");
         while(!hero.isDead()&&!enemys.isEmpty()) {
-            for(int i=0; i<5;i++){
-                System.out.println();
-            }
-            for(int i=0;i<3;i++){
-                System.out.println();
-            }
             boolean repeater=true;
             while (repeater) {
                 System.out.println("1. Attack");
@@ -44,37 +36,48 @@ public class Battle{
 
                         //Attack and choosing a person to attack
                         case 1 -> {
+                            spacer();
                             System.out.println("Choose which enemy you want to hit.");
                             int i;
-                            for(i=0; i<enemys.size()-1;i++){
+                            for(i=0; i<enemys.size();i++){
                                 System.out.println("Type "+i+" for: "+enemys.get(i)+". ");
                             }
+                            //ATTACK FUNCTION AND CHECK IF IS ENEMY DEAD
                             while (true) { 
                                 try {
                                     int choice_of_enemy=scnr.nextInt();
                                     if(choice_of_enemy>-1 && choice_of_enemy<i){
-                                        enemy=enemys.get(choice_of_enemy);
-                                        specific_enemy=choice_of_enemy;
+                                        DefaultCharacter enemy=enemys.get(choice_of_enemy);
+                                        if (hero.attack(enemy)) {
+                                            System.out.printf("%s rolled %.1f! %s HP: %.1f", 
+                                            hero.getName(), 
+                                            hero.getAttackPower(), 
+                                            enemy.getName(), 
+                                            enemy.getHp());
+                                            sm.play(attack);
+                                            //Checker if the enemy is dead
+                                            System.out.println();
+                                            if(enemy.isDead()){
+                                                enemy.printDeath(hero);
+                                                enemys.remove(choice_of_enemy);
+                                                sm.play(enemyDeath);
+                                                skipEnemyTurn=true;
+                                            }
+                                        }
+                                        repeater=false;
                                         break;
                                     }
                                     else{
                                         System.out.println("You put in an invalid enemy. Please choose again from the list.");
+                                        spacer();
                                     }
                                 } 
                                 catch (InputMismatchException e) {
                                     System.out.println("You put in an invalid enemy. Please choose again from the list.");
+                                    spacer();
                                 }   
                             }
-                            playerAttacked=true;
-                            if (hero.attack(enemy)) {
-                                System.out.println(hero.getName()+" rolled "+hero.getAttackPower()+"! "+enemy.getName()+" HP: "+enemy.getHp());
-                                sm.play(attack);
-                                repeater=false;
-                                break;
-                            } else {
-                                repeater=false;
-                                break;
-                            }
+                            break;
                         }
 
                         //Choice of Healing
@@ -108,28 +111,31 @@ public class Battle{
             if(enemys.isEmpty()){
                 break;
             }
-
-            if(enemy.isDead()&&enemy!=null&&playerAttacked){
-                enemy.printDeath(hero);
-                enemys.remove(specific_enemy);
-                sm.play(enemyDeath);
-                playerAttacked=false;
-            }
-            else{
-                int random_enemy=rand.nextInt(enemys.size());
-                DefaultCharacter attacker=enemys.get(random_enemy);
-                if(attacker.attack(hero)){
-                    sm.play(attack);
-                    System.out.println(attacker.getName()+" rolled "+attacker.getAttackPower()+"! "+hero.getName()+" HP: "+hero.getHp());
-                }
-                if(hero.isDead()){
-                    hero.printDeath(attacker);
-                    sm.play(playerDeath);
-                    break;
+            if(!skipEnemyTurn){
+                for(Enemy attacker: enemys){
+                    if(attacker.attack(hero)){
+                        sm.play(attack);
+                        System.out.printf("%s rolled %.1f! %s HP: %.1f", 
+                        attacker.getName(), 
+                        attacker.getAttackPower(), 
+                        hero.getName(), 
+                        hero.getHp());
+                        System.out.println();
+                    }
+                    if(hero.isDead()){
+                        hero.printDeath(attacker);
+                        sm.play(playerDeath);
+                        break;
+                    }
                 }
             }
             System.out.println();
             System.out.println("_______________________________________");
+        }
+    }
+    public void spacer(){
+        for(int i=0; i<2; i++){
+            System.out.println();
         }
     }
 }
