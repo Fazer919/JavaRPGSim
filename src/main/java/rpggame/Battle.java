@@ -4,13 +4,15 @@ import Characters.*;
 import java.util.*;
 
 public class Battle{
-    Hero hero;
     ArrayList<Enemy> enemys;
+    Hero hero;
     String playerDeath="/Audio/Nooo.m4a";
     String attack="/Audio/Damage.m4a";
     String enemyDeath="/Audio/golfclap.m4a";
     SoundManager sm=new SoundManager();
     boolean skipEnemyTurn=false;
+    boolean playerAttacked=false;
+    int specific_enemy;
     Scanner scnr;
     Random rand;
     public Battle(Hero hero, ArrayList<Enemy> enemy_group, Scanner scnr,Random rand) {
@@ -24,6 +26,12 @@ public class Battle{
         System.out.println("==        NEW       FIGHT         ==");
         System.out.println("_______________________________________");
         while(!hero.isDead()&&!enemys.isEmpty()) {
+            for(int i=0; i<5;i++){
+                System.out.println();
+            }
+            for(int i=0;i<3;i++){
+                System.out.println();
+            }
             boolean repeater=true;
             while (repeater) {
                 System.out.println("1. Attack");
@@ -33,7 +41,6 @@ public class Battle{
                 try {
                     int choice=scnr.nextInt();
                     switch (choice) {
-
                         //Attack and choosing a person to attack
                         case 1 -> {
                             spacer();
@@ -79,7 +86,6 @@ public class Battle{
                             }
                             break;
                         }
-
                         //Choice of Healing
                         case 2 -> {
                             repeater=false;
@@ -88,7 +94,7 @@ public class Battle{
                             hero.heal();
                             break;
                         }
-
+                        
                         //Quit the battle
                         case 3 -> {
                             enemys.clear();
@@ -136,6 +142,9 @@ public class Battle{
     public void spacer(){
         for(int i=0; i<2; i++){
             System.out.println();
+            if(enemys.isEmpty()){
+                break;
+            }
         }
     }
 }
